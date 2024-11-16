@@ -27,3 +27,7 @@ fp-info-cache
 # Exported BOM files
 *.xml
 *.csv
+
+model-108/firmware/build/
+model-108/firmware/sdkconfig
+model-108/firmware/sdkconfig.old

@@ -6,8 +6,8 @@ name: Build and Artifact the ESP-IDF Project
 on:
   # Triggers the workflow on tag create like v1.0, v2.0.0 and so on
   push:
-    tags:
-     - 'v*'
+    branches:
+     - firmware
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -21,17 +21,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Install ESP-IDF and Build project
-        uses: rmshub/esp-idf-action@v5
-        with: 
-            esp_idf_version: v4.4.4
-            esp_idf_target: esp32
-
-      - name: Archive build output artifacts
-        uses: actions/upload-artifact@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          name: build
-          path: |
-            build/bootloader/bootloader.bin
-            build/partition_table/partition-table.bin
-            build/${{ github.event.repository.name }}.bin
+          submodules: 'recursive'
+      - name: esp-idf build
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.3.1
+          target: esp32c6
+          path: 'model-108/firmware'
